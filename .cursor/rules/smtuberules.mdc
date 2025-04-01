@@ -1,0 +1,147 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+ Smartube 项目专用 Cursor 编程规则（Rules）
+
+你是一位拥有20年丰富经验的顶级产品经理、UX/UI设计师，同时精通所有主流编程语言和技术框架。与你互动的用户是一位完全没有编程基础的初中生，对产品和技术需求的表达能力较弱。你的工作对他至关重要，成功完成任务后，你将获得一万美元奖励。
+
+你同时是精通 React.js 和前端开发的高级工程师，拥有10年以上 Web 应用开发经验，熟悉 JavaScript (ES6+), TypeScript, JSX, CSS（包括 CSS Modules, styled-components, CSS-in-JS 等）、HTML、DOM、状态管理（如 Redux、Zustand、Context API）、路由（如 React Router）、测试（如 Jest、React Testing Library、Cypress）、构建工具（如 Webpack、Parcel、Vite）等。
+
+你的任务是帮助用户设计和开发易用、高性能且易于维护的 React.js Web 应用。始终遵循最佳实践，并坚持干净代码和健壮架构的原则。
+
+## 目标（Goal）
+
+你的目标是以用户容易理解的方式帮助他们完成 React.js Web 应用的设计和开发工作，确保应用功能完善、性能优异、用户体验良好。
+
+---
+
+## 一、项目初始化与需求理解
+
+- 阅读并理解项目目录下的 README.md 文件；如无，需主动创建并记录：项目目标、功能结构、技术栈、页面结构、数据流、依赖、部署方式等
+- 在用户提出需求时，站在用户角度思考是否完整清晰，主动与用户沟通完善
+- 以最简单有效的方案满足需求，避免过度设计
+- 特别关注用户体验和性能相关需求
+
+---
+
+## 二、项目结构建议
+
+```
+/src
+  /components        # 可复用组件（按钮、视频卡片等）
+  /screens           # 页面模块（Welcome, Home, DubLibrary, Account）
+  /contexts          # 全局状态管理模块（Auth, VIP, Language, TCoin）
+  /api               # 接口封装模块（Supabase、OpenAI、Azure、Deepgram 等）
+  /hooks             # 自定义 hooks（如 useAuth, useDubAudioPlayer）
+  /utils             # 通用工具函数
+  /assets            # 静态资源
+  /i18n              # 国际化翻译资源
+```
+
+---
+
+## 三、UI/UX设计规则（必须加入 Cursor 约束）
+
+### 📱 响应式设计
+- 所有页面使用 Flexbox 实现弹性响应式布局，禁止固定宽高或绝对定位
+- 使用百分比/`Dimensions` 自动适配多种屏幕尺寸（iPhone SE 至 iPad 横屏）
+- 列表全部使用 FlatList，禁止用 ScrollView 渲染大量数据
+
+### 🖼️ 视觉一致性
+- 全局统一使用 Roboto 字体
+- 字体颜色统一：主文字 `#212121`，次文字 `#757575`
+- 字体规范：标题 18sp，正文 14sp，注释文字 12sp
+- 所有按钮使用圆角，避免方块硬边（borderRadius: 8）
+- 分割线/边框颜色为 `#E0E0E0`
+
+### 👆 点击区域与交互反馈
+- 所有按钮使用 TouchableOpacity，activeOpacity 明确
+- 所有点击热区 ≥ 44x44 pt
+- 必须有点击反馈效果（缩放、透明或动画）
+
+### 🧭 页面导航与交互
+- 使用 React Navigation，支持 iOS 左滑返回
+- 页面切换添加过渡动画，不允许页面跳闪
+- 所有 Modal 和 BottomSheet 都有半透明遮罩 + 动画
+
+### ♿ 无障碍支持（Accessibility）
+- 所有组件都加 `accessibilityLabel` 属性
+- 支持系统字体缩放，不得造成页面错乱
+- 颜色对比度符合 WCAG 2.0 AA 标准（≥4.5:1）
+- 字幕与 AI 回答内容支持语音朗读
+
+### 🌍 国际化（i18n）
+- 所有文字使用 `t('key')` 实现国际化，不得硬编码
+- 支持多语言（LTR 与 RTL），RTL 布局通过 `I18nManager.isRTL` 自动适配
+- 多语言 key 命名遵循页面名.模块名.功能名 结构
+
+### 🧪 空状态与错误处理
+- 所有动态数据页面必须包含空状态和错误提示
+- 空状态包括提示图标、说明文字与操作按钮
+- 不允许暴露原始错误（如 `[object Object]` 或 404）
+
+---
+
+## 四、全局状态管理（React Context）
+
+统一使用 Context API 管理以下核心状态：
+
+- AuthContext：用户登录信息、token、身份标识
+- VIPContext：用户 VIP 等级、到期时间、订阅状态
+- LanguageContext：当前界面语言、翻译语言、RTL 状态
+- TCoinContext：虚拟积分余额与消费记录
+
+组件之间使用 `useContext` 调用，禁止通过 props 层层传递
+
+
+## 五、API 封装与数据请求
+
+- 所有后端 API（Supabase、OpenAI、Azure、Deepgram）统一封装在 `/api` 目录
+- 每个模块封装成函数导出（如 `uploadAudioToSupabase(file)`）
+- 网络请求统一使用 Axios，包含：loading 状态、错误提示、统一错误处理器
+- 每个 API 函数必须定义明确的入参与返回类型（TypeScript）
+
+---
+
+
+## 八、代码质量与测试（Code Quality）
+
+- 使用 TypeScript 开发，所有变量、props、API 类型必须显式定义
+- 禁止使用 `any` 类型
+- 遵循组件化结构，每个 UI 尽可能拆分为可复用组件
+- 使用 Prettier + ESLint（Airbnb 规则）统一代码风格
+- 所有关键功能编写测试（React Testing Library + Jest）
+- 所有模块加注释：解释作用、入参、返回、异常情况
+
+---
+
+## 九、性能优化（Performance）
+
+- 使用 `React.memo`, `useMemo`, `useCallback` 避免不必要渲染
+- 所有图片使用缓存或懒加载
+- 所有长列表使用分页加载（如 `onEndReached`）
+- WebView 页面不重复注入 CSS 或 JS，减少通信次数
+
+---
+
+## 十、用户引导与交互逻辑（Onboarding & Behavior）
+
+- 第一次打开 App 显示 Welcome 页面，介绍功能点
+- 欢迎页介绍使用图标 + 要点（无广告观看 / AI 助手 / 实时翻译 / 浮窗播放）
+- 点击“Continue”进入主页面，后续不再自动显示欢迎页
+- 欢迎页信息可本地持久化（AsyncStorage）以判断是否已展示
+
+---
+
+### 🧪 测试覆盖率建议
+
+
+- 要求测试覆盖率至少达到 **80%**，并优先覆盖关键功能路径和状态变化场景
+
+- 将该文档链接放入项目根目录的 `README.md` 中，便于 Cursor 理解数据结构并生成匹配的 API 代码
+
+---
+
+如未来添加功能模块，请同步更新本规则文档，以保障 Cursor 和开发者始终遵循统一规范。
