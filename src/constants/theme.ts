@@ -4,7 +4,7 @@ import { Platform, TextStyle } from 'react-native';
 // 颜色
 export const colors = {
   // 主色调
-  primary: '#3d5afe', // 品牌主色（根据需要可以调整）
+  primary: '#FF0000',
   primaryDark: '#0031ca',
   primaryLight: '#8187ff',
 
@@ -20,11 +20,9 @@ export const colors = {
   },
 
   // 背景
-  background: {
-    default: '#FFFFFF', // 默认背景色
-    paper: '#F5F5F5', // 纸张/卡片背景色
-    elevated: '#FAFAFA', // 高度元素背景色
-  },
+  background: '#FFFFFF',
+  paper: '#F5F5F5',
+  elevated: '#FFFFFF',
 
   // 边框和分割线
   divider: '#E0E0E0',
@@ -148,12 +146,11 @@ export const typography: Record<string, TextStyle> = {
 
 // 间距和大小
 export const spacing = {
-  xs: 4, // 极小间距
-  small: 8, // 小间距
-  medium: 16, // 中等间距
-  large: 24, // 大间距
-  xl: 32, // 特大间距
-  xxl: 48, // 超大间距
+  xs: 4,
+  sm: 8,
+  md: 16,
+  lg: 24,
+  xl: 32,
 };
 
 // 圆角
@@ -217,7 +214,7 @@ export const layout = {
   // 固定尺寸
   headerHeight: 56, // 顶部导航栏高度
   bottomTabHeight: 50, // 底部导航栏高度
-  screenHorizontalPadding: spacing.medium, // 屏幕水平内边距
+  screenHorizontalPadding: spacing.md, // 屏幕水平内边距
 
   // 交互相关
   touchableMinSize: 44, // 最小可触摸区域尺寸

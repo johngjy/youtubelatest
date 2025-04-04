@@ -21,7 +21,17 @@
     "username": "用户名",
     "language": "语言",
     "tcoin": "T币",
-    "dub_library": "配音库"
+    "dubspace": "配音空间"
+  },
+  "tab": {
+    "home": "首页",
+    "dubspace": "配音",
+    "subscriptions": "订阅",
+    "ytaccount": "油管",
+    "askai": "问AI",
+    "dubbing": "配音",
+    "you": "我的",
+    "account": "账户"
   },
   "welcome": {
     "title": "欢迎使用 Smartube",
@@ -100,7 +110,7 @@
     "usage_playback": "配音库播放：0.5 T币/10分钟",
     "usage_discount": "会员续费抵扣：100 T币 = $1"
   },
-  "dub_library": {
+  "dubspace": {
     "select_language": "选择配音语言",
     "confirm": "确认",
     "dubbing_language": "配音语言：",

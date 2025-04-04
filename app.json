@@ -8,19 +8,42 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "fonts": [
+      {
+        "asset": "./assets/fonts/Roboto-Regular.ttf",
+        "family": "Roboto"
+      },
+      {
+        "asset": "./assets/fonts/Roboto-Medium.ttf",
+        "family": "Roboto-Medium"
+      },
+      {
+        "asset": "./assets/fonts/Roboto-Bold.ttf",
+        "family": "Roboto-Bold"
+      }
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.example.smartube"
     },
     "android": {
-
       "package": "com.example.smartube"
     },
-    "web": {},
+    "plugins": [
+      "expo-dev-client"
+    ],
     "extra": {
       "eas": {
         "projectId": "03f50d07-0bf8-49ac-85ee-0fa555d2ff90"
       }
-    }
+    },
+    "owner": "smartube",
+    "developmentClient": {
+      "silentLaunch": true
+    },
+    "updates": {
+      "url": "http://192.168.18.10:8081"
+    },
+    "web": {}
   }
 }

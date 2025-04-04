@@ -14,8 +14,11 @@ export interface Language {
 }
 
 // 应用支持的语言列表
+// Default language must be first in the list
+export const DEFAULT_LANGUAGE: Language = { code: 'en', name: 'English', nativeName: 'English', isRTL: false };
+
 export const SUPPORTED_LANGUAGES: Language[] = [
-  { code: 'en', name: 'English', nativeName: 'English', isRTL: false },
+  DEFAULT_LANGUAGE,
   { code: 'zh', name: 'Chinese', nativeName: '中文', isRTL: false },
   { code: 'ja', name: 'Japanese', nativeName: '日本語', isRTL: false },
   { code: 'ru', name: 'Russian', nativeName: 'Русский', isRTL: false },
@@ -55,19 +58,20 @@ const getLanguageByCode = (code: string): Language | undefined => {
 const getDeviceLanguage = (): string => {
   const deviceLang = Localization.locale.split('-')[0];
   // 检查设备语言是否在支持的语言列表中
-  return SUPPORTED_LANGUAGES.find((lang) => lang.code === deviceLang) ? deviceLang : 'en';
+  const supportedLang = SUPPORTED_LANGUAGES.find((lang) => lang.code === deviceLang);
+  return supportedLang ? supportedLang.code : 'en';
 };
 
 // 语言 Provider 组件
 export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) => {
   // 获取设备默认语言作为初始值
   const deviceLang = getDeviceLanguage();
-  const defaultLanguage =
-    SUPPORTED_LANGUAGES.find((lang) => lang.code === deviceLang) || SUPPORTED_LANGUAGES[0];
+  // Use device language if supported, otherwise fall back to default language
+  const defaultLanguage = SUPPORTED_LANGUAGES.find((lang) => lang.code === deviceLang) || DEFAULT_LANGUAGE;
 
   const [currentLanguage, setCurrentLanguage] = useState<Language>(defaultLanguage);
-  const [dubLanguage, setDubLanguage] = useState<string>(deviceLang);
-  const [translateLanguage, setTranslateLanguage] = useState<string>(deviceLang);
+  const [dubLanguage, setDubLanguage] = useState<string>(defaultLanguage.code);
+  const [translateLanguage, setTranslateLanguage] = useState<string>(defaultLanguage.code);
   const [loading, setLoading] = useState<boolean>(true);
 
   // 使用 react-i18next 的翻译 hook

@@ -2,14 +2,15 @@ import React, { useRef, useState } from 'react';
 import { View, StyleSheet, ActivityIndicator } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../../navigation/AppNavigator';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { MainTabParamList } from '../../navigation/AppNavigator';
 import { Header } from '../../components';
+import { BottomNavHome } from '../../components/navigation';
 import { theme } from '../../constants/theme';
 import { useLanguage } from '../../contexts';
 
 type HomeScreenProps = {
-  navigation: StackNavigationProp<RootStackParamList, 'Main'>;
+  navigation: BottomTabNavigationProp<MainTabParamList, 'Home'>;
 };
 
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
@@ -61,6 +62,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
             },
           },
         ]}
+        onBackPress={() => navigation.goBack()}
       />
 
       <View style={styles.webViewContainer}>
@@ -87,6 +89,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           renderLoading={() => <ActivityIndicator size="large" color={theme.colors.primary} />}
         />
       </View>
+      <BottomNavHome />
     </SafeAreaView>
   );
 };
@@ -94,7 +97,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.colors.background.default,
+    backgroundColor: theme.colors.background,
   },
   webViewContainer: {
     flex: 1,
@@ -107,7 +110,7 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: theme.colors.background.default,
+    backgroundColor: theme.colors.background,
     zIndex: 10,
   },
 });

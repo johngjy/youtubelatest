@@ -44,6 +44,8 @@ alwaysApply: true
 
 ## 三、UI/UX设计规则（必须加入 Cursor 约束）
 
+### 设计参考： 界面风格参考 YouTube 移动端设计规范，采用类似 Material Design 的布局和样式，尽量符合用户对于 YouTube 的使用习惯。如有图片提交，必须完全遵循图片的设计。
+
 ### 📱 响应式设计
 - 所有页面使用 Flexbox 实现弹性响应式布局，禁止固定宽高或绝对定位
 - 使用百分比/`Dimensions` 自动适配多种屏幕尺寸（iPhone SE 至 iPad 横屏）
@@ -55,6 +57,9 @@ alwaysApply: true
 - 字体规范：标题 18sp，正文 14sp，注释文字 12sp
 - 所有按钮使用圆角，避免方块硬边（borderRadius: 8）
 - 分割线/边框颜色为 `#E0E0E0`
+- 图标风格： 统一使用 Phosphoricons 图标库中的图标，风格简洁现代，与整体设计协调。
+-配色与主题： 整体采用明亮的白色背景，文字为深色（黑色或深灰），强调内容。尽量少量使用 YouTube 红色（仅用于必要的强调或品牌元素），保证界面清爽简洁。
+- 字体样式需符合移动版YouTube的设计规范参考
 
 ### 👆 点击区域与交互反馈
 - 所有按钮使用 TouchableOpacity，activeOpacity 明确

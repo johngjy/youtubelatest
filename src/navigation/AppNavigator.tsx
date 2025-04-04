@@ -3,24 +3,30 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useAuth } from '../contexts';
-import { WelcomeScreen, HomeScreen } from '../screens';
+import { WelcomeScreen, HomeScreen, VideoScreen, DubSpaceScreen, AccountScreen, AskAIScreen, SubscriptionsScreen, YTAccountScreen } from '../screens';
+import { View } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 // 导入占位屏幕组件（后期实际开发时会替换成真实的屏幕组件）
-// 稍后将创建真实的屏幕组件
-const DubLibraryScreen = () => <></>;
-const VIPScreen = () => <></>;
-const AccountScreen = () => <></>;
-const VideoPlayerScreen = () => <></>;
-const SignInScreen = () => <></>;
-const SignUpScreen = () => <></>;
+const DubLibraryScreen = () => <View style={{ flex: 1 }} />;
+const YoutubeScreen = () => <View style={{ flex: 1 }} />;
+const VIPScreen = () => <View style={{ flex: 1 }} />;
+const VideoPlayerScreen = () => <View style={{ flex: 1 }} />;
+const SignInScreen = () => <View style={{ flex: 1 }} />;
+const SignUpScreen = () => <View style={{ flex: 1 }} />;
 
 // 定义主要导航堆栈的参数
 export type RootStackParamList = {
-  Welcome: undefined; // 欢迎页面
-  Main: undefined; // 主导航（包含底部选项卡）
-  Video: { videoId: string }; // 视频播放页
-  VIP: undefined; // VIP 会员页面
-  Auth: undefined; // 认证相关页面
+  Main: undefined;
+  Welcome: undefined;
+  VideoPlayer: {
+    videoId: string;
+  };
+  DubSpace: undefined;
+  Account: undefined;
+  AskAI: undefined;
+  Subscriptions: undefined;
+  YTAccount: undefined;
 };
 
 // 定义认证导航堆栈的参数
@@ -31,9 +37,10 @@ export type AuthStackParamList = {
 
 // 定义底部标签导航的参数
 export type MainTabParamList = {
-  Home: undefined; // 主页（YouTube WebView）
-  DubLibrary: undefined; // 配音库页面
-  Account: undefined; // 账户页面
+  Home: undefined;
+  DubSpace: undefined;
+  Subscriptions: undefined;
+  YTAccount: undefined;
 };
 
 // 创建导航堆栈
@@ -61,8 +68,18 @@ const MainTabNavigator = () => {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: '#3d5afe',
-        tabBarInactiveTintColor: '#757575',
+        tabBarActiveTintColor: '#FF0000',
+        tabBarInactiveTintColor: '#666666',
+        tabBarStyle: {
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          paddingHorizontal: 20,
+          height: 55,
+          backgroundColor: '#FFFFFF',
+          borderTopWidth: 1,
+          borderTopColor: '#F2F2F2',
+        },
       }}
     >
       <Tab.Screen
@@ -70,23 +87,39 @@ const MainTabNavigator = () => {
         component={HomeScreen}
         options={{
           tabBarLabel: 'Home',
-          // tabBarIcon 将在实际实现时添加
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="home-outline" size={24} color={color} />
+          ),
         }}
       />
       <Tab.Screen
-        name="DubLibrary"
-        component={DubLibraryScreen}
+        name="DubSpace"
+        component={DubSpaceScreen}
         options={{
-          tabBarLabel: 'Dub Library',
-          // tabBarIcon 将在实际实现时添加
+          tabBarLabel: 'DubSpace',
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="play-outline" size={24} color={color} />
+          ),
         }}
       />
       <Tab.Screen
-        name="Account"
-        component={AccountScreen}
+        name="Subscriptions"
+        component={SubscriptionsScreen}
         options={{
-          tabBarLabel: 'Account',
-          // tabBarIcon 将在实际实现时添加
+          tabBarLabel: 'Subscriptions',
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="film-outline" size={24} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="YTAccount"
+        component={YTAccountScreen}
+        options={{
+          tabBarLabel: 'YouTube',
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="logo-youtube" size={24} color={color} />
+          ),
         }}
       />
     </Tab.Navigator>
@@ -95,37 +128,25 @@ const MainTabNavigator = () => {
 
 // 应用的主导航器
 const AppNavigator = () => {
-  const { isLoading, user, isSignout } = useAuth();
+  const { isLoading, user } = useAuth();
 
-  // 可以在这里处理应用启动时的逻辑，例如显示闪屏
   if (isLoading) {
-    // 返回一个加载指示器或闪屏组件
     return null;
   }
 
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {/* 首次启动显示欢迎页 */}
-        <Stack.Screen
-          name="Welcome"
-          component={WelcomeScreen}
-          options={{
-            animationTypeForReplace: isSignout ? 'pop' : 'push',
-          }}
-        />
-
-        {/* 主应用底部标签导航 */}
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+          gestureEnabled: true,
+        }}
+        initialRouteName="Welcome"
+      >
+        <Stack.Screen name="Welcome" component={WelcomeScreen} />
         <Stack.Screen name="Main" component={MainTabNavigator} />
-
-        {/* 视频播放页面 */}
-        <Stack.Screen name="Video" component={VideoPlayerScreen} />
-
-        {/* VIP 会员页面 */}
-        <Stack.Screen name="VIP" component={VIPScreen} />
-
-        {/* 认证相关页面 */}
-        <Stack.Screen name="Auth" component={AuthNavigator} />
+        <Stack.Screen name="VideoPlayer" component={VideoScreen} />
+        <Stack.Screen name="AskAI" component={AskAIScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

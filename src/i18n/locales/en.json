@@ -21,7 +21,17 @@
     "username": "Username",
     "language": "Language",
     "tcoin": "TCoin",
-    "dub_library": "Dub Library"
+    "dubspace": "DubSpace"
+  },
+  "tab": {
+    "home": "Home",
+    "dubspace": "DubSpace",
+    "subscriptions": "Subs",
+    "ytaccount": "YouTube",
+    "askai": "Ask AI",
+    "dubbing": "Dub",
+    "you": "You",
+    "account": "Account"
   },
   "welcome": {
     "title": "Welcome to Smartube",
@@ -107,7 +117,7 @@
     "usage_playback": "Dub Library Playback: 0.5 TCoin per 10 minutes",
     "usage_discount": "VIP Subscription Discount: 100 TCoin = $1 off renewal"
   },
-  "dub_library": {
+  "dubspace": {
     "select_language": "Select Dubbing Language",
     "confirm": "Confirm",
     "dubbing_language": "Dubbing Language:",
