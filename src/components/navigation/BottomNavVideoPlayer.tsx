@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import TabIconLabel from './TabIconLabel';
+import { useTranslation } from 'react-i18next';
 
 const Tab = createBottomTabNavigator();
 
@@ -9,6 +10,8 @@ const Tab = createBottomTabNavigator();
 const PlaceholderScreen = () => <View style={{ flex: 1 }} />;
 
 const BottomNavVideoPlayer = () => {
+  const { t } = useTranslation();
+  
   return (
     <Tab.Navigator
       screenOptions={{
@@ -22,9 +25,9 @@ const BottomNavVideoPlayer = () => {
         options={{
           tabBarIcon: ({ focused }) => (
             <TabIconLabel
-              name="home"
-              label="tab.home"
-              focused={focused}
+              icon="home"
+              label={t('tab.home')}
+              isActive={focused}
             />
           ),
         }}
@@ -35,9 +38,9 @@ const BottomNavVideoPlayer = () => {
         options={{
           tabBarIcon: ({ focused }) => (
             <TabIconLabel
-              name="askai"
-              label="tab.askai"
-              focused={focused}
+              icon="askai"
+              label={t('tab.askai')}
+              isActive={focused}
             />
           ),
         }}
@@ -48,9 +51,9 @@ const BottomNavVideoPlayer = () => {
         options={{
           tabBarIcon: ({ focused }) => (
             <TabIconLabel
-              name="dubbing"
-              label="tab.dubbing"
-              focused={focused}
+              icon="dubbing"
+              label={t('tab.dubbing')}
+              isActive={focused}
             />
           ),
         }}
@@ -61,9 +64,9 @@ const BottomNavVideoPlayer = () => {
         options={{
           tabBarIcon: ({ focused }) => (
             <TabIconLabel
-              name="account"
-              label="tab.account"
-              focused={focused}
+              icon="account"
+              label={t('tab.account')}
+              isActive={focused}
             />
           ),
         }}

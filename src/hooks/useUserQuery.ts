@@ -1,12 +1,29 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { useSession } from '@supabase/auth-helpers-react'
+import { useState, useEffect } from 'react'
+import { Session } from '@supabase/supabase-js'
 import { supabase } from '../api/supabase'
 import useUserStore from '../stores/useUserStore'
 
 export const useUserQuery = () => {
-  const session = useSession()
+  const [session, setSession] = useState<Session | null>(null)
   const queryClient = useQueryClient()
   const syncWithQuery = useUserStore((state) => state.syncWithQuery)
+  
+  useEffect(() => {
+    // 获取初始会话
+    supabase.auth.getSession().then(({ data }) => {
+      setSession(data.session)
+    })
+
+    // 设置会话更改监听器
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, newSession) => {
+      setSession(newSession)
+    })
+
+    return () => subscription.unsubscribe()
+  }, [])
 
   // 获取用户数据
   const { data: userData, isLoading } = useQuery({

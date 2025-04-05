@@ -1,17 +1,34 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
-import { useSession } from '@supabase/auth-helpers-react'
+import { Session } from '@supabase/supabase-js'
+import { supabase } from '../../api/supabase'
 import useUserStore from '../../stores/useUserStore'
 import useUserQuery from '../../hooks/useUserQuery'
 import { formatDate } from '../../utils/date'
 
 export const UserProfileHeader: React.FC = () => {
-  const session = useSession()
+  const [session, setSession] = useState<Session | null>(null)
   // 从 Zustand 获取客户端状态
   const { isVIP, vipExpiryDate, coinBalance, aiUsageCount, aiUsageLimit } = useUserStore()
   
   // 从 React Query 获取服务器状态
   const { userData, isLoading } = useUserQuery()
+  
+  useEffect(() => {
+    // 获取初始会话
+    supabase.auth.getSession().then(({ data }) => {
+      setSession(data.session)
+    })
+
+    // 设置会话更改监听器
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, newSession) => {
+      setSession(newSession)
+    })
+
+    return () => subscription.unsubscribe()
+  }, [])
 
   if (isLoading || !session) {
     return (

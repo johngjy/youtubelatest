@@ -2,8 +2,6 @@ import React from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { I18nextProvider } from 'react-i18next'
 import i18n from '../i18n/config'
-import { supabase } from '../api/supabase'
-import { SessionContextProvider } from '@supabase/auth-helpers-react'
 
 // 创建 React Query 客户端
 const queryClient = new QueryClient({
@@ -28,11 +26,9 @@ interface AppProvidersProps {
 export const AppProviders: React.FC<AppProvidersProps> = ({ children }) => {
   return (
     <QueryClientProvider client={queryClient}>
-      <SessionContextProvider supabaseClient={supabase}>
-        <I18nextProvider i18n={i18n}>
-          {children}
-        </I18nextProvider>
-      </SessionContextProvider>
+      <I18nextProvider i18n={i18n}>
+        {children}
+      </I18nextProvider>
     </QueryClientProvider>
   )
 } 

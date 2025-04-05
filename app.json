@@ -5,6 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
+    "scheme": "smartube",
     "assetBundlePatterns": [
       "**/*"
     ],
@@ -42,7 +43,7 @@
       "silentLaunch": true
     },
     "updates": {
-      "url": "http://192.168.18.10:8081"
+      "url": "http://localhost:8081"
     },
     "web": {}
   }

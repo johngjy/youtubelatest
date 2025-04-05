@@ -8,6 +8,7 @@ import { Header } from '../../components';
 import { BottomNavHome } from '../../components/navigation';
 import { theme } from '../../constants/theme';
 import { useLanguage } from '../../contexts';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 type HomeScreenProps = {
   navigation: BottomTabNavigationProp<MainTabParamList, 'Home'>;
@@ -49,20 +50,35 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     setCurrentUrl(navState.url);
   };
 
+  // 新增的处理函数
+  const handleSearchPress = () => {
+    // 导航到搜索页或显示搜索框
+    console.log('Search pressed');
+  };
+
+  const handleGlobePress = () => {
+    // 处理翻译功能
+    console.log('Translation pressed');
+  };
+
+  const handleVIPPress = () => {
+    // 导航到账户页面，因为没有 VIP 页面，暂时导航到 YTAccount
+    navigation.navigate('YTAccount');
+  };
+
+  const handleProfilePress = () => {
+    // 导航到账户页面
+    navigation.navigate('YTAccount');
+  };
+
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <Header
-        title={t('common.home')}
-        showBackButton={false}
-        rightActions={[
-          {
-            icon: 'refresh',
-            onPress: () => {
-              webViewRef.current?.reload();
-            },
-          },
-        ]}
-        onBackPress={() => navigation.goBack()}
+        backgroundColor={theme.colors.background}
+        onSearchPress={handleSearchPress}
+        onGlobePress={handleGlobePress}
+        onVIPPress={handleVIPPress}
+        onProfilePress={handleProfilePress}
       />
 
       <View style={styles.webViewContainer}>

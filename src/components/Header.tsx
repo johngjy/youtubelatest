@@ -9,16 +9,16 @@ import {
   ViewStyle,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 import { theme } from '../constants/theme';
 
 // 导航栏右侧图标按钮属性
 export interface HeaderAction {
-  icon: keyof typeof MaterialCommunityIcons.glyphMap;
+  icon: keyof typeof Ionicons.glyphMap; // 使用 Ionicons 的正确类型
   onPress: () => void;
   testID?: string;
-  tintColor?: string;
+  color?: string;
 }
 
 // Header 组件属性接口
@@ -38,7 +38,7 @@ export interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({
   style,
   backgroundColor = '#FFFFFF',
-  title = 'SmartTube',
+  title,
   showBackButton = false,
   rightActions = [],
   onSearchPress,
@@ -62,38 +62,63 @@ const Header: React.FC<HeaderProps> = ({
     >
       <StatusBar barStyle="dark-content" backgroundColor={backgroundColor} translucent />
       <View style={styles.header}>
-        {/* Left Section */}
+        {/* Left Section - Logo and Title */}
         <View style={styles.leftContainer}>
-          {showBackButton && (
-            <TouchableOpacity
-              style={styles.actionButton}
-              onPress={onBackPress}
-              activeOpacity={0.7}
-            >
-              <MaterialCommunityIcons name="arrow-left" size={24} color="#1C1C1E" />
-            </TouchableOpacity>
-          )}
-          <View style={styles.logoContainer}>
-            <MaterialCommunityIcons name="microphone" size={32} color="#EA333D" />
-            <Text style={styles.title}>{title}</Text>
+          <View style={styles.logoWrapper}>
+            <Image 
+              source={require('../../assets/images/smartube-logo.png')} 
+              style={styles.logo}
+              resizeMode="contain"
+            />
           </View>
+          <Text style={styles.title}>SmartTube</Text>
         </View>
 
         {/* Right Actions */}
         <View style={styles.rightActionsContainer}>
+          {/* 内置的图标按钮 */}
+          <TouchableOpacity 
+            style={styles.actionButton}
+            onPress={onSearchPress}
+            activeOpacity={0.7}
+          >
+            <Ionicons name="search" size={24} color="#1C1C1E" />
+          </TouchableOpacity>
+          
+          <TouchableOpacity 
+            style={styles.actionButton}
+            onPress={onGlobePress}
+            activeOpacity={0.7}
+          >
+            <Ionicons name="globe-outline" size={24} color="#1C1C1E" />
+          </TouchableOpacity>
+          
+          <TouchableOpacity 
+            style={styles.actionButton}
+            onPress={onVIPPress}
+            activeOpacity={0.7}
+          >
+            <Ionicons name="star" size={24} color="#FFB800" />
+          </TouchableOpacity>
+          
+          <TouchableOpacity 
+            style={styles.actionButton}
+            onPress={onProfilePress}
+            activeOpacity={0.7}
+          >
+            <Ionicons name="logo-youtube" size={24} color="#EA333D" />
+          </TouchableOpacity>
+          
+          {/* 额外的自定义动作 */}
           {rightActions.map((action, index) => (
             <TouchableOpacity
-              key={`${action.icon}-${index}`}
+              key={`action-${index}`}
               style={styles.actionButton}
               onPress={action.onPress}
               activeOpacity={0.7}
               testID={action.testID}
             >
-              <MaterialCommunityIcons 
-                name={action.icon} 
-                size={24} 
-                color={action.tintColor || '#1C1C1E'} 
-              />
+              <Ionicons name={action.icon} size={24} color={action.color || "#1C1C1E"} />
             </TouchableOpacity>
           ))}
         </View>
@@ -112,35 +137,38 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   header: {
-    height: 44,
+    height: 50,
     flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#EEEEEE',
-  },
-  logoContainer: {
-    flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 11,  // (44 - 22) / 2 to center the 22px height logo
-    gap: 8,
+    paddingHorizontal: 15,
+    paddingVertical: 6,
+    borderWidth: 1,
+    borderColor: 'rgba(159, 159, 159, 0.41)',
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
   },
-
+  logoWrapper: {
+    height: 36,
+    width: 36,
+    marginRight: 8,
+  },
+  logo: {
+    width: '100%',
+    height: '100%',
+  },
   title: {
     fontSize: 20,
     fontFamily: 'Roboto-Medium',
     color: '#1C1C1E',
   },
-
   rightActionsContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 20,
+    gap: 12,
   },
   actionButton: {
-    padding: 8,
-    marginLeft: -4, // Compensate for the padding to maintain 20px gap
+    padding: 6,
   },
 });
 
